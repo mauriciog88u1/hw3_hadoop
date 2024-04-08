@@ -6,7 +6,6 @@ import org.apache.hadoop.mapreduce.Reducer;
 import org.apache.hadoop.mapreduce.lib.output.MultipleOutputs;
 
 import java.io.IOException;
-
 public class SongReducer extends Reducer<Text, IntWritable, Text, IntWritable> {
     private Text maxArtist = new Text();
     private int maxCount = 0;
@@ -24,7 +23,7 @@ public class SongReducer extends Reducer<Text, IntWritable, Text, IntWritable> {
     protected void reduce(Text key, Iterable<IntWritable> values, Context context) throws IOException, InterruptedException {
         switch (questionNumber) {
             case 1:
-                processQuestion1(key, values, context);
+                processQuestion1(key, values);
                 break;
             case 2:
                 processQuestion2(key, values, context);
@@ -34,7 +33,7 @@ public class SongReducer extends Reducer<Text, IntWritable, Text, IntWritable> {
         }
     }
 
-    private void processQuestion1(Text key, Iterable<IntWritable> values, Context context) throws IOException, InterruptedException {
+    private void processQuestion1(Text key, Iterable<IntWritable> values) {
         int sum = 0;
         for (IntWritable val : values) {
             sum += val.get();
@@ -43,15 +42,16 @@ public class SongReducer extends Reducer<Text, IntWritable, Text, IntWritable> {
             maxCount = sum;
             maxArtist.set(key);
         }
-        String description = String.format("Artist with maximum count is %s with count %d", maxArtist.toString(), maxCount);
-        context.write(new Text(description), null);
     }
 
     @Override
     protected void cleanup(Context context) throws IOException, InterruptedException {
-
-
+        if (questionNumber == 1) {
+            String description = String.format("Artist with maximum count is %s with count %d", maxArtist.toString(), maxCount);
+            context.write(new Text(description), new IntWritable(maxCount));
+        }
     }
+
     private void processQuestion2(Text key, Iterable<IntWritable> values, Context context) throws IOException, InterruptedException {
     }
 }
