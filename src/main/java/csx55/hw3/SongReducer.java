@@ -7,8 +7,7 @@ import org.apache.hadoop.mapreduce.lib.output.MultipleOutputs;
 
 import java.io.IOException;
 public class SongReducer extends Reducer<Text, IntWritable, Text, IntWritable> {
-    private Text maxArtist = new Text();
-    private int maxCount = 0;
+  
     private MultipleOutputs<Text, IntWritable> mos;
 
     private int questionNumber;
@@ -23,7 +22,7 @@ public class SongReducer extends Reducer<Text, IntWritable, Text, IntWritable> {
     protected void reduce(Text key, Iterable<IntWritable> values, Context context) throws IOException, InterruptedException {
         switch (questionNumber) {
             case 1:
-                processQuestion1(key, values);
+                processQuestion1(key, values , context);
                 break;
             case 2:
                 processQuestion2(key, values, context);
@@ -33,8 +32,12 @@ public class SongReducer extends Reducer<Text, IntWritable, Text, IntWritable> {
         }
     }
 
-    private void processQuestion1(Text key, Iterable<IntWritable> values) {
+    private void processQuestion1(Text key, Iterable<IntWritable> values, Context context)  throws IOException, InterruptedException {
         int sum = 0;
+        Text maxArtist = new Text();
+        int maxCount = 0;
+        IntWritable result = new IntWritable();
+
         for (IntWritable val : values) {
             sum += val.get();
         }
@@ -42,14 +45,13 @@ public class SongReducer extends Reducer<Text, IntWritable, Text, IntWritable> {
             maxCount = sum;
             maxArtist.set(key);
         }
+        result.set(maxCount);
+        context.write(maxArtist,result);
     }
 
     @Override
     protected void cleanup(Context context) throws IOException, InterruptedException {
-        if (questionNumber == 1) {
-            String description = String.format("Artist with maximum count is %s with count %d", maxArtist.toString(), maxCount);
-            context.write(new Text(description), new IntWritable(maxCount));
-        }
+       
     }
 
     private void processQuestion2(Text key, Iterable<IntWritable> values, Context context) throws IOException, InterruptedException {
