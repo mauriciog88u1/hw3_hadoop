@@ -35,10 +35,14 @@ public class SongMapper extends Mapper<Object, Text, Text, IntWritable> {
     }
 
     private void processQuestion1(String[] data, Context context) throws IOException, InterruptedException {
-        if (data.length > SongData.ARTIST_ID_INDEX) {
-            artistId.set(data[SongData.ARTIST_ID_INDEX]);
+        Text description = new Text();
+
+        if (data.length > ARTIST_ID_INDEX) {
+            description.set("Most popular artist(Question 1:");
+            artistId.set(data[ARTIST_ID_INDEX]);
             context.write(artistId, one);
         }
+        
     }
 
     private void processQuestion2(String[] data, Context context) throws IOException, InterruptedException {
