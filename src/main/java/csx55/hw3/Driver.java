@@ -11,12 +11,17 @@ import org.apache.hadoop.mapreduce.lib.output.FileOutputFormat;
 public class Driver {
 
     public static void main(String[] args) throws Exception {
-        System.out.println("ARGS LENGTH "+ args.length);
+        for(String arg:args){
+
+            System.out.println(arg);
+        }
         Configuration conf = new Configuration();
+
         if (args.length > 2) {
-            int questionNumber = Integer.parseInt(args[2]);  
+            int questionNumber = Integer.parseInt(args[3]);  
             conf.setInt("question.number", questionNumber);
         }
+
         Job job = Job.getInstance(conf, "Homework 3 Million Song Dataset");
         job.setJarByClass(Driver.class);
         job.setMapperClass(SongMapper.class);

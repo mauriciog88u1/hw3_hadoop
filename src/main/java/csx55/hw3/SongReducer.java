@@ -7,6 +7,8 @@ import org.apache.hadoop.mapreduce.Reducer;
 import java.io.IOException;
 
 public class SongReducer extends Reducer<Text, IntWritable, Text, IntWritable> {
+    private Text maxArtist = new Text();
+    private IntWritable maxCount = new IntWritable(0);
     private int questionNumber;
 
     @Override
@@ -16,19 +18,19 @@ public class SongReducer extends Reducer<Text, IntWritable, Text, IntWritable> {
 
     @Override
     public void reduce(Text key, Iterable<IntWritable> values, Context context) throws IOException, InterruptedException {
-        switch (questionNumber) {
-            case 1:
-                int sum = 0;
-                for (IntWritable val : values) {
-                    sum += val.get();
-                }
-                context.write(key, new IntWritable(sum));
-                break;
-            case 2:
-            System.out.println("Question 2");
-                break;
+        int sum = 0;
+        for (IntWritable val : values) {
+            sum += val.get();
+        }
+        if (sum > maxCount.get()) {
+            maxArtist.set(key);
+            maxCount.set(sum);
         }
     }
 
-    // Optionally, override the cleanup method if needed for post-processing
+    @Override
+    protected void cleanup(Context context) throws IOException, InterruptedException {
+        Text result = new Text("Question " + questionNumber + ": " + maxArtist.toString());
+        context.write(result, maxCount);
+    }
 }
