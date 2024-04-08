@@ -6,6 +6,8 @@ import org.apache.hadoop.mapreduce.Mapper;
 
 import java.io.IOException;
 
+import static csx55.hw3.SongData.ARTIST_ID_INDEX;
+
 public class SongMapper extends Mapper<Object, Text, Text, IntWritable> {
     private final static IntWritable one = new IntWritable(1);
     private final Text artistId = new Text();
