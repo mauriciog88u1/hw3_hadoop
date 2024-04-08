@@ -30,3 +30,7 @@ U
 %src/main/java/csx55/hw3/SongData.java,4/b/4be6e57542b987c18c14b0b2e377cb4462018cbd
 Y
 )src/main/java/csx55/hw3/AnalysisData.java,0/c/0c8ac60392037c848fe7cf5cde19afc02754baa3
+[
++src/main/java/csx55/hw3/AnalysisMapper.java,2/a/2aeee3040db70f8d8069993078424be1d1bb2e13
+\
+,src/main/java/csx55/hw3/AnalysisReducer.java,e/8/e808d26bd345e2dfd291f334a3d028ccd8b4415e

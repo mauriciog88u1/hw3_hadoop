@@ -19,8 +19,8 @@ public class Driver {
         Configuration conf = new Configuration();
         int questionNumber = Integer.parseInt(args[4]);
         conf.setInt("question.number", questionNumber);
-
-        Job job = Job.getInstance(conf, "Homework 3 Million Song Dataset");
+        // Metadata.txt
+        Job job = Job.getInstance(conf, "Homework 3 Million Song Dataset metadata analysis");
         job.setJarByClass(Driver.class);
         job.setMapperClass(SongMapper.class);
         job.setReducerClass(SongReducer.class);
@@ -28,10 +28,16 @@ public class Driver {
         job.setOutputKeyClass(Text.class);
         job.setOutputValueClass(IntWritable.class);
         
-        // Add both input paths
+        // Analysis.txt
         FileInputFormat.addInputPath(job, new Path(args[1]));
-        FileInputFormat.addInputPath(job, new Path(args[2]));
         FileOutputFormat.setOutputPath(job, new Path(args[3]));
+        Job job2 = Job.getInstance(conf, "Homework 3 Million Song Dataset anlysis");
+        job2.setJarByClass(Driver.class);
+        job2.setMapperClass(AnalysisMapper.class);
+        job2.setReducerClass(AnalysisReducer.class);
+        job2.setCombinerClass(AnalysisReducer.class);
+        job2.setOutputKeyClass(Text.class);
+        job2.setOutputValueClass(IntWritable.class);
 
         System.exit(job.waitForCompletion(true) ? 0 : 1);
     }
