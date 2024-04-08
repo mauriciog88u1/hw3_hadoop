@@ -7,11 +7,18 @@ version = '1.0-SNAPSHOT'
 
 repositories {
     mavenCentral()
+    flatDir {
+        dirs 'libs' // This is the directory where you put the Hadoop JAR files
+    }
 }
 
 dependencies {
     testImplementation platform('org.junit:junit-bom:5.9.1')
     testImplementation 'org.junit.jupiter:junit-jupiter'
+    implementation name: 'hadoop-common-3.4.0' // This is the Hadoop common JAR file
+    implementation name: 'hadoop-mapreduce-client-core-3.4.0' // This is the Hadoop MapReduce client core JAR file
+
+
 }
 
 test {

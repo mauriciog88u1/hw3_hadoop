@@ -1,20 +1,12 @@
 
 <
 build.gradle,f/0/f07866736216be0ee2aba49e392191aeae700a35
-S
-#src/main/java/org/example/Main.java,0/b/0ba1b9c7a4878802f938e331cc2d8a042087ec6b
-Q
-!src/main/java/csx55/hw3/Main.java,3/e/3e44194f829d535d8ffb404c1be44a14da44a1e4
 ?
 settings.gradle,0/5/05efc8b1657769a27696d478ded1e95f38737233
 7
 gradlew,5/b/5bbfa66edb4db3c7c33c5181f43510990d3307f9
 ;
 gradlew.bat,2/a/2a45a911a8f1836b0b6c5b758962572012d8f8c3
-w
-G.idea/sonarlint/issuestore/0/b/0ba1b9c7a4878802f938e331cc2d8a042087ec6b,f/d/fdf818fb9a5362495b87d39f90f1c1ca5c215796
-
-Q.idea/sonarlint/securityhotspotstore/0/b/0ba1b9c7a4878802f938e331cc2d8a042087ec6b,a/b/abe25e851ee828e40a94fcb1c1be6f78ff7a04cf
 w
 G.idea/sonarlint/issuestore/f/0/f07866736216be0ee2aba49e392191aeae700a35,b/f/bfb9453d49af9bc40f5f7a5f034be3c7ef8fa6bf
 :
@@ -28,3 +20,13 @@ S
 #.idea/sonarlint/issuestore/index.pb,9/f/9fe84ebb15faf917b7def6236dba604453cc61e0
 ]
 -.idea/sonarlint/securityhotspotstore/index.pb,8/8/88a9255124c95bdc913197c120a8d560edc59c8e
+W
+'src/main/java/csx55/hw3/SongMapper.java,9/9/99232337c4982dc31cc4c36b6fd1ab7d879381ff
+X
+(src/main/java/csx55/hw3/SongReducer.java,9/1/91a704000ee157645e7f0e122c30287e3a48c390
+S
+#src/main/java/csx55/hw3/Driver.java,3/8/383fcd84c1c0166418ffb7adcfe783dfb69a9706
+U
+%src/main/java/csx55/hw3/SongData.java,4/b/4be6e57542b987c18c14b0b2e377cb4462018cbd
+Y
+)src/main/java/csx55/hw3/AnalysisData.java,0/c/0c8ac60392037c848fe7cf5cde19afc02754baa3
