@@ -48,11 +48,12 @@ public class SongReducer extends Reducer<Text, IntWritable, Text, IntWritable> {
     @Override
     protected void cleanup(Context context) throws IOException, InterruptedException {
         if (questionNumber == 1) {
-            mos.write("QuestionOne", new Text("Question 1: Artist with maximum count"), new IntWritable(maxCount), "QuestionOne/part");
+            String description = String.format("Question 1: Artist with maximum count is %s with count %d", maxArtist.toString(), maxCount);
+            mos.write("QuestionOne", new Text(description), null, "QuestionOne/part");
             mos.close();
         }
-    }
 
+    }
     private void processQuestion2(Text key, Iterable<IntWritable> values, Context context) throws IOException, InterruptedException {
     }
 }
