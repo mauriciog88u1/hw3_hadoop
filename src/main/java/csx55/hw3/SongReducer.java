@@ -36,10 +36,9 @@ public class SongReducer extends Reducer<Text, IntWritable, Text, IntWritable> {
         for (IntWritable val : values) {
             sum += val.get();
         }
-        result.set(sum);
-        context.write(key, result);
+        count.set(sum);
+        context.write(key, count);
     }
-    
     
 
     private void processQuestion2(Text key, Iterable<IntWritable> values, Context context) throws IOException, InterruptedException {
