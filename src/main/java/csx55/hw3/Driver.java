@@ -11,16 +11,14 @@ import org.apache.hadoop.mapreduce.lib.output.FileOutputFormat;
 public class Driver {
 
     public static void main(String[] args) throws Exception {
-        for(String arg:args){
-
-            System.out.println(arg);
+        if (args.length != 5) {
+            System.out.println("Usage: Driver <metadata path> <analysis path> <output path> <question number>");
+            System.exit(-1);
         }
+
         Configuration conf = new Configuration();
-
-        if (args.length > 2) {
-            int questionNumber = Integer.parseInt(args[3]);  
-            conf.setInt("question.number", questionNumber);
-        }
+        int questionNumber = Integer.parseInt(args[4]);
+        conf.setInt("question.number", questionNumber);
 
         Job job = Job.getInstance(conf, "Homework 3 Million Song Dataset");
         job.setJarByClass(Driver.class);
@@ -29,9 +27,12 @@ public class Driver {
         job.setCombinerClass(SongReducer.class);
         job.setOutputKeyClass(Text.class);
         job.setOutputValueClass(IntWritable.class);
+        
+        // Add both input paths
         FileInputFormat.addInputPath(job, new Path(args[1]));
-        FileOutputFormat.setOutputPath(job, new Path(args[2]));
-        System.exit(job.waitForCompletion(true) ? 0 : 1);
+        FileInputFormat.addInputPath(job, new Path(args[2]));
+        FileOutputFormat.setOutputPath(job, new Path(args[3]));
 
+        System.exit(job.waitForCompletion(true) ? 0 : 1);
     }
 }

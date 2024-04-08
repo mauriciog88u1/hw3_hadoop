@@ -7,8 +7,9 @@ import org.apache.hadoop.mapreduce.Reducer;
 import java.io.IOException;
 
 public class SongReducer extends Reducer<Text, IntWritable, Text, IntWritable> {
-    private Text maxArtist = new Text();
-    private IntWritable maxCount = new IntWritable(0);
+    private Text result = new Text();
+    private IntWritable count = new IntWritable();
+
     private int questionNumber;
 
     @Override
@@ -17,20 +18,32 @@ public class SongReducer extends Reducer<Text, IntWritable, Text, IntWritable> {
     }
 
     @Override
-    public void reduce(Text key, Iterable<IntWritable> values, Context context) throws IOException, InterruptedException {
+    protected void reduce(Text key, Iterable<IntWritable> values, Context context) throws IOException, InterruptedException {
+        switch (questionNumber) {
+            case 1:
+                processQuestion1(key, values, context);
+                break;
+            case 2:
+                processQuestion2(key, values, context);
+                break;
+            default:
+                break;
+        }
+    }
+
+    private void processQuestion1(Text key, Iterable<IntWritable> values, Context context) throws IOException, InterruptedException {
         int sum = 0;
         for (IntWritable val : values) {
             sum += val.get();
         }
-        if (sum > maxCount.get()) {
-            maxArtist.set(key);
-            maxCount.set(sum);
-        }
+        result.set("Total Songs: " + sum);
+        count.set(sum);
+        context.write(result, count);
     }
 
-    @Override
-    protected void cleanup(Context context) throws IOException, InterruptedException {
-        Text result = new Text("Question " + questionNumber + ": " + maxArtist.toString());
-        context.write(result, maxCount);
+    private void processQuestion2(Text key, Iterable<IntWritable> values, Context context) throws IOException, InterruptedException {
+        // Add processing logic for question 2
     }
+
+    // Add methods for other questions as needed
 }

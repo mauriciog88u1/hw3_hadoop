@@ -6,8 +6,6 @@ import org.apache.hadoop.mapreduce.Mapper;
 
 import java.io.IOException;
 
-import static csx55.hw3.SongData.ARTIST_ID_INDEX;
-
 public class SongMapper extends Mapper<Object, Text, Text, IntWritable> {
     private final static IntWritable one = new IntWritable(1);
     private final Text artistId = new Text();
@@ -22,16 +20,29 @@ public class SongMapper extends Mapper<Object, Text, Text, IntWritable> {
     public void map(Object key, Text value, Context context) throws IOException, InterruptedException {
         String[] data = value.toString().split("\\|");
 
-        switch (questionNumber) {
-            case 1:
-                if (data.length > ARTIST_ID_INDEX) {
-                    artistId.set(data[ARTIST_ID_INDEX]);
-                    context.write(artistId, one);
-                }
-                break;
-            case 2:
-                System.out.println("Question 2");
-                break;
+        if (data.length > 0) {
+            switch (questionNumber) {
+                case 1:
+                    processQuestion1(data, context);
+                    break;
+                case 2:
+                    processQuestion2(data, context);
+                    break;
+                default:
+                    break;
+            }
         }
     }
+
+    private void processQuestion1(String[] data, Context context) throws IOException, InterruptedException {
+        if (data.length > SongData.ARTIST_ID_INDEX) {
+            artistId.set(data[SongData.ARTIST_ID_INDEX]);
+            context.write(artistId, one);
+        }
+    }
+
+    private void processQuestion2(String[] data, Context context) throws IOException, InterruptedException {
+   
+    }
+    // Add methods for other questions as needed
 }
