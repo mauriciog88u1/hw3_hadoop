@@ -7,15 +7,28 @@ import org.apache.hadoop.mapreduce.Reducer;
 import java.io.IOException;
 
 public class SongReducer extends Reducer<Text, IntWritable, Text, IntWritable> {
-    private IntWritable result = new IntWritable();
+    private int questionNumber;
+
+    @Override
+    protected void setup(Context context) throws IOException, InterruptedException {
+        this.questionNumber = context.getConfiguration().getInt("question.number", 1);
+    }
 
     @Override
     public void reduce(Text key, Iterable<IntWritable> values, Context context) throws IOException, InterruptedException {
-        int sum = 0;
-        for (IntWritable val : values) {
-            sum += val.get();
+        switch (questionNumber) {
+            case 1:
+                int sum = 0;
+                for (IntWritable val : values) {
+                    sum += val.get();
+                }
+                context.write(key, new IntWritable(sum));
+                break;
+            case 2:
+            System.out.println("Question 2");
+                break;
         }
-        result.set(sum);
-        context.write(key, result);
     }
+
+    // Optionally, override the cleanup method if needed for post-processing
 }
