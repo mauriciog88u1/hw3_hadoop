@@ -2,7 +2,7 @@ package csx55.hw3;
 
 public class AnalysisData {
     private AnalysisData() {}
-    public static final int SONG_ID_INDEX = 0;
+    public static final int SONG_ID_INDEX_ANALYSIS = 0;
     public static final int SONG_HOTTTNESSS_INDEX = 1;
     public static final int ANALYSIS_SAMPLE_RATE_INDEX = 2;
     public static final int DANCEABILITY_INDEX = 3;

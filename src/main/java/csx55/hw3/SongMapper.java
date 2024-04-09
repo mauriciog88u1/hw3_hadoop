@@ -40,7 +40,7 @@ public class SongMapper extends Mapper<Object, Text, Text, IntWritable> {
         Text description = new Text();
 
             description.set("Most popular artist(Question 1:");
-            artistId.set(data[5]);
+            artistId.set(data[ARTIST_NAME_INDEX]);
             context.write(artistId, one);
         
     }
