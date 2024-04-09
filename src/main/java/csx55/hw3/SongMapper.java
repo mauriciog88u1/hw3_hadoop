@@ -6,7 +6,7 @@ import org.apache.hadoop.mapreduce.Mapper;
 
 import java.io.IOException;
 
-import static csx55.hw3.SongData.ARTIST_ID_INDEX;
+import static csx55.hw3.SongData.*;
 
 public class SongMapper extends Mapper<Object, Text, Text, IntWritable> {
     private final static IntWritable one = new IntWritable(1);
@@ -39,11 +39,9 @@ public class SongMapper extends Mapper<Object, Text, Text, IntWritable> {
     private void processQuestion1(String[] data, Context context) throws IOException, InterruptedException {
         Text description = new Text();
 
-        if (data.length > ARTIST_ID_INDEX) {
             description.set("Most popular artist(Question 1:");
-            artistId.set(data[ARTIST_ID_INDEX]);
+            artistId.set(data[5]);
             context.write(artistId, one);
-        }
         
     }
 
