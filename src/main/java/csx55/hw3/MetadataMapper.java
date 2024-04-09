@@ -13,7 +13,7 @@ public class MetadataMapper extends Mapper<Object, Text, Text, Text> {
 
     public void map(Object key, Text value, Context context) throws IOException, InterruptedException {
         String[] data = value.toString().split("\\|");
-        songID.set(data[SONG_ID_INDEX_METADATA]);
+        songID.set(data[SONG_ID_INDEX]);
         artistName.set(data[ARTIST_NAME_INDEX]);
         context.write(songID, artistName);
     }

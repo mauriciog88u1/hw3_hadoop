@@ -1,6 +1,6 @@
 package csx55.hw3;
 
-import org.apache.hadoop.io.IntWritable;
+import org.apache.hadoop.io.FloatWritable;
 import org.apache.hadoop.io.Text;
 import org.apache.hadoop.mapreduce.Mapper;
 
@@ -9,8 +9,8 @@ import java.io.IOException;
 import static csx55.hw3.AnalysisData.LOUDNESS_INDEX;
 import static csx55.hw3.AnalysisData.SONG_ID_INDEX_ANALYSIS;
 
-public class AnalysisMapper extends Mapper<Object, Text, Text, IntWritable> {
-    private final static IntWritable one = new IntWritable(1);
+public class AnalysisMapper extends Mapper<Object, Text, Text, FloatWritable> {
+    private final static FloatWritable one = new FloatWritable(1);
     private final Text songID = new Text();
     private final Text loudestSong = new Text();
     private int questionNumber;
@@ -36,12 +36,10 @@ public class AnalysisMapper extends Mapper<Object, Text, Text, IntWritable> {
     }
 
     private void processQuestion2(String[] data, Context context) throws IOException, InterruptedException {
-        
-        IntWritable loudness = new IntWritable();
-        int loudestSong = Integer.parseInt(data[LOUDNESS_INDEX]);
-        loudness.set(loudestSong);
-        songID.set(data[SONG_ID_INDEX_ANALYSIS]);
-        context.write(songID, loudness);
+
+        float loudness = Float.parseFloat(data[LOUDNESS_INDEX]);
+        Text songID = new Text(data[SONG_ID_INDEX_ANALYSIS]);
+        context.write(songID, new FloatWritable(loudness));
     }
    
 
