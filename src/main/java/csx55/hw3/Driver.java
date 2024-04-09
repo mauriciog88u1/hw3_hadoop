@@ -2,6 +2,7 @@ package csx55.hw3;
 
 import org.apache.hadoop.conf.Configuration;
 import org.apache.hadoop.fs.Path;
+import org.apache.hadoop.io.FloatWritable;
 import org.apache.hadoop.io.IntWritable;
 import org.apache.hadoop.io.Text;
 import org.apache.hadoop.mapreduce.Job;
@@ -49,7 +50,7 @@ public class Driver {
         q2_2.setMapperClass(AnalysisMapper.class);
         q2_2.setReducerClass(SongReducer.class);
         q2_2.setOutputKeyClass(Text.class);
-        q2_2.setOutputValueClass(IntWritable.class);
+        q2_2.setOutputValueClass(FloatWritable.class);
         FileInputFormat.addInputPath(q2_2, new Path(args[2]));
         FileOutputFormat.setOutputPath(q2_2, new Path(args[3] + "2"));
 
