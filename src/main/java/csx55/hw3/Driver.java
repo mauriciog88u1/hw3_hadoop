@@ -41,8 +41,8 @@ public class Driver {
         q2_1.setReducerClass(SongReducer.class);
         q2_1.setOutputKeyClass(Text.class);
         q2_1.setOutputValueClass(Text.class);
-        FileInputFormat.addInputPath(q2_1, new Path(args[0]));
-        FileOutputFormat.setOutputPath(q2_1, new Path(args[2]));
+        FileInputFormat.addInputPath(q2_1, new Path(args[1]));
+        FileOutputFormat.setOutputPath(q2_1, new Path(args[3]));
 
         Job q2_2 = Job.getInstance(conf, "Homework 3 Million Song Dataset analysis");
         q2_2.setJarByClass(Driver.class);
@@ -50,7 +50,7 @@ public class Driver {
         q2_2.setReducerClass(SongReducer.class);
         q2_2.setOutputKeyClass(Text.class);
         q2_2.setOutputValueClass(IntWritable.class);
-        FileInputFormat.addInputPath(q2_2, new Path(args[1]));
+        FileInputFormat.addInputPath(q2_2, new Path(args[2]));
         FileOutputFormat.setOutputPath(q2_2, new Path(args[3]));
 
         System.exit(q2_1.waitForCompletion(true) && q2_2.waitForCompletion(true) ? 0 : 1);
