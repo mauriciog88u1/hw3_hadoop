@@ -48,7 +48,7 @@ public class SongReducer extends Reducer<Text, Text, Text, IntWritable> {
 
     private void processQuestion2(Text key, Iterable<Text> values, Context context) throws IOException, InterruptedException {
         String artistName = "";
-        int maxLoudness = Integer.MIN_VALUE; // negative sound values are possible
+        int maxLoudness = Integer.MIN_VALUE;
 
         for (Text val : values) {
             String value = val.toString();
@@ -59,7 +59,7 @@ public class SongReducer extends Reducer<Text, Text, Text, IntWritable> {
                     artistName = key.toString();
                 }
             } catch (NumberFormatException e) {
-                e.printStackTrace();
+                artistName = value;
             }
         }
 
