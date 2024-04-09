@@ -1,15 +1,17 @@
 package csx55.hw3;
 
-import org.apache.hadoop.io.IntWritable;
 import org.apache.hadoop.io.Text;
 import org.apache.hadoop.mapreduce.Reducer;
 
 import java.io.IOException;
 
-public class SongReducer extends Reducer<Text, Text, Text, IntWritable> {
-    private IntWritable result = new IntWritable();
-    private Text maxArtist = new Text();
-    private int maxCount = 0;
+public class SongReducer extends Reducer<Text, Text, Text, Text> {
+    private Text maxArtistQ1 = new Text();
+    private int maxCountQ1 = 0;
+
+    private float maxLoudnessQ2 = Float.MIN_VALUE;
+    private String loudestArtistQ2 = "";
+    private String loudestSongIDQ2 = "";
     private int questionNumber;
 
     @Override
@@ -19,19 +21,14 @@ public class SongReducer extends Reducer<Text, Text, Text, IntWritable> {
 
     @Override
     protected void reduce(Text key, Iterable<Text> values, Context context) throws IOException, InterruptedException {
-        switch (questionNumber) {
-            case 1:
-                processQuestion1(key, values, context);
-                break;
-            case 2:
-                processQuestion2(key, values, context);
-                break;
-            default:
-                break;
+        if (questionNumber == 1) {
+            processQuestion1(key, values);
+        } else if (questionNumber == 2) {
+            processQuestion2(key, values);
         }
     }
 
-    private void processQuestion1(Text key, Iterable<Text> values, Context context) throws IOException, InterruptedException {
+    private void processQuestion1(Text key, Iterable<Text> values) {
         int sum = 0;
         for (Text val : values) {
             try {
@@ -40,38 +37,39 @@ public class SongReducer extends Reducer<Text, Text, Text, IntWritable> {
                 // Ignore non-integer values
             }
         }
-        if (sum > maxCount) {
-            maxCount = sum;
-            maxArtist.set(key);
+        if (sum > maxCountQ1) {
+            maxCountQ1 = sum;
+            maxArtistQ1.set(key);
         }
     }
 
-    private void processQuestion2(Text key, Iterable<Text> values, Context context) throws IOException, InterruptedException {
-        String artistName = "";
-        int maxLoudness = Integer.MIN_VALUE;
+    private void processQuestion2(Text key, Iterable<Text> values) {
+        float currentLoudness = 0;
+        String artistName = null;
 
-        for (Text val : values) {
-            String value = val.toString();
+        for (Text value : values) {
+            String strValue = value.toString();
             try {
-                int loudness = Integer.parseInt(value);
-                if (loudness > maxLoudness) {
-                    maxLoudness = loudness;
-                    artistName = key.toString();
+                currentLoudness = Float.parseFloat(strValue);
+                if (currentLoudness > maxLoudnessQ2) {
+                    maxLoudnessQ2 = currentLoudness;
+                    loudestSongIDQ2 = key.toString();
                 }
             } catch (NumberFormatException e) {
-                artistName = value;
+                artistName = strValue;
+                if (key.toString().equals(loudestSongIDQ2)) {
+                    loudestArtistQ2 = artistName;
+                }
             }
-        }
-
-        if (!artistName.isEmpty()) {
-            context.write(new Text(artistName), new IntWritable(maxLoudness));
         }
     }
 
     @Override
     protected void cleanup(Context context) throws IOException, InterruptedException {
         if (questionNumber == 1) {
-            context.write(maxArtist, new IntWritable(maxCount));
+            context.write(maxArtistQ1, new Text(String.valueOf(maxCountQ1)));
+        } else if (questionNumber == 2) {
+            context.write(new Text(loudestSongIDQ2), new Text(loudestArtistQ2));
         }
     }
 }
