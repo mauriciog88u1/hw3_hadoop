@@ -49,6 +49,7 @@ public class SongReducer extends Reducer<Text, Text, Text, Text> {
 
         for (Text value : values) {
             String strValue = value.toString();
+            System.out.println("Key: " + key.toString() + ", Value: " + strValue); // Debug statement
             try {
                 currentLoudness = Float.parseFloat(strValue);
                 if (currentLoudness > maxLoudnessQ2) {
