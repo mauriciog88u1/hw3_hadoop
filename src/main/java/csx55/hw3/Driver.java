@@ -51,7 +51,7 @@ public class Driver {
         q2_2.setOutputKeyClass(Text.class);
         q2_2.setOutputValueClass(IntWritable.class);
         FileInputFormat.addInputPath(q2_2, new Path(args[2]));
-        FileOutputFormat.setOutputPath(q2_2, new Path(args[3]));
+        FileOutputFormat.setOutputPath(q2_2, new Path(args[3] + "2"));
 
         System.exit(q2_1.waitForCompletion(true) && q2_2.waitForCompletion(true) ? 0 : 1);
     }
