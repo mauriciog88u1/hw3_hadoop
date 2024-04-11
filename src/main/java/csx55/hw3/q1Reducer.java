@@ -20,7 +20,7 @@ public class q1Reducer extends Reducer<Text, IntWritable, Text, IntWritable> {
 
         if (sum > maxCountQ1) {
             maxCountQ1 = sum;
-            maxArtistQ1.set("Artist: " + key.toString() + " Count: " + sum);
+            maxArtistQ1.set("Artist: " + key.toString() + " Count: ");
         }
     }
 
