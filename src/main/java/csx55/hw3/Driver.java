@@ -57,7 +57,7 @@ public class Driver {
                 throw new IllegalStateException("Unexpected value: " + questionNumber);
         }
 
-        FileOutputFormat.setOutputPath(job, new Path(args[3]));
+        FileOutputFormat.setOutputPath(job, new Path(args[1]));
         System.exit(job.waitForCompletion(true) ? 0 : 1);
     }
 }
