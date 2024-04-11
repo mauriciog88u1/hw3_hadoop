@@ -17,7 +17,7 @@ public class q3Mapper extends Mapper<LongWritable, Text, Text, Text> {
         String[] data = value.toString().split("\\|");
         String song = data[SONG_ID_INDEX_ANALYSIS];
         String hotttnesss = data[SONG_HOTTTNESSS_INDEX];
-        context.write(new Text("Hotttnesss"), new Text(song + "|" + hotttnesss));
+        context.write(new Text("Hotttnesss "), new Text(song + "|" + hotttnesss));
     }
 
 
