@@ -23,7 +23,6 @@ public class q1Mapper extends Mapper<Object, Text, Text, IntWritable>{
         String[] data = value.toString().split("\\|");
         artistId.set(data[ARTIST_NAME_INDEX]);
         context.write(artistId, one);
-        System.out.println("Finished question " + questionNumber + " mapper");
     }
 
 

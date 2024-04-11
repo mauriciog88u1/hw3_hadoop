@@ -1,6 +1,5 @@
 package csx55.hw3;
 
-
 import org.apache.hadoop.conf.Configuration;
 import org.apache.hadoop.fs.Path;
 import org.apache.hadoop.io.IntWritable;
@@ -15,7 +14,7 @@ public class Driver {
 
     public static void main(String[] args) throws Exception {
         if (args.length < 4) {
-            System.err.println("Usage: SongDataDriver <question number> <analysis input path> <metadata input path> <output path>");
+            System.err.println("Usage: Driver <question number> <analysis input path> <metadata input path> <output path>");
             System.exit(-1);
         }
 
@@ -26,6 +25,7 @@ public class Driver {
 
         switch (questionNumber) {
             case 1:
+                job.setNumReduceTasks(1);
                 job.setMapperClass(q1Mapper.class);
                 job.setReducerClass(q1Reducer.class);
                 job.setOutputKeyClass(Text.class);
@@ -33,7 +33,7 @@ public class Driver {
                 FileInputFormat.addInputPath(job, new Path(args[1]));
                 break;
             case 2:
-                job.setMapperClass(q1Mapper.class);
+                job.setMapperClass(q2Mapper.class);
                 job.setReducerClass(q2Reducer.class);
                 job.setOutputKeyClass(Text.class);
                 job.setOutputValueClass(Text.class);
