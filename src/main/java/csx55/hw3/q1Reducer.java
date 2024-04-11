@@ -23,10 +23,13 @@ public class q1Reducer extends Reducer {
 
             if (sum > maxCountQ1) {
                 maxCountQ1 = sum;
-                maxArtistQ1.set(key);
+                maxArtistQ1.set("Artist: " + key.toString() + " Count: " );
             }
         }
-    context.write(maxArtistQ1, new IntWritable(maxCountQ1));
+    }
+    @Override
+    protected void cleanup(Context context) throws IOException, InterruptedException {
+        context.write(maxArtistQ1, new IntWritable(maxCountQ1));
     }
 
 
