@@ -12,11 +12,15 @@ import org.apache.hadoop.mapreduce.lib.input.MultipleInputs;
 
 public class Driver {
 
+    private static final String METADATA_INPUT_PATH = "/hw3/metadata.txt";
+    private static final String ANALYSIS_INPUT_PATH = "/hw3/analysis.txt";
+
     public static void main(String[] args) throws Exception {
-        if (args.length < 4) {
-            System.err.println("Usage: Driver <question number> <analysis input path> <metadata input path> <output path>");
+        if (args.length < 2) {
+            System.err.println("Usage: Driver <question number> <output path>");
             System.exit(-1);
         }
+        System.out.printf("Question %s output will be saved to %s%n", args[0], args[1]);
 
         int questionNumber = Integer.parseInt(args[0]);
         Configuration conf = new Configuration();
@@ -30,16 +34,25 @@ public class Driver {
                 job.setReducerClass(q1Reducer.class);
                 job.setOutputKeyClass(Text.class);
                 job.setOutputValueClass(IntWritable.class);
-                FileInputFormat.addInputPath(job, new Path(args[1]));
+                FileInputFormat.addInputPath(job, new Path(METADATA_INPUT_PATH));
                 break;
             case 2:
                 job.setMapperClass(q2Mapper.class);
                 job.setReducerClass(q2Reducer.class);
                 job.setOutputKeyClass(Text.class);
                 job.setOutputValueClass(Text.class);
-                MultipleInputs.addInputPath(job, new Path(args[1]), TextInputFormat.class, q2Mapper.class);
-                MultipleInputs.addInputPath(job, new Path(args[2]), TextInputFormat.class, q2Mapper.class);
+                MultipleInputs.addInputPath(job, new Path(METADATA_INPUT_PATH), TextInputFormat.class, q2Mapper.class);
+                MultipleInputs.addInputPath(job, new Path(ANALYSIS_INPUT_PATH), TextInputFormat.class, q2Mapper.class);
                 break;
+                case 3:
+                    System.out.println("Question 3 Q3. What is the song with the highest hotttnesss (popularity) score?");
+                job.setMapperClass(q3Mapper.class);
+                job.setReducerClass(q3Reducer.class);
+                job.setOutputKeyClass(Text.class);
+                job.setOutputValueClass(Text.class);
+                FileInputFormat.addInputPath(job, new Path(ANALYSIS_INPUT_PATH));
+                break;
+
             default:
                 throw new IllegalStateException("Unexpected value: " + questionNumber);
         }
