@@ -36,3 +36,7 @@ Y
 ,src/main/java/csx55/hw3/AnalysisReducer.java,e/8/e808d26bd345e2dfd291f334a3d028ccd8b4415e
 [
 +src/main/java/csx55/hw3/MetadataMapper.java,e/c/ec5f51211794a2d6f27ca8260d714df7e12a6cde
+V
+&src/main/java/csx55/hw3/q3Reducer.java,0/8/0898bda546e539753d9f0d8075617c539c6cc551
+U
+%src/main/java/csx55/hw3/q3Mapper.java,0/5/0502e5a5059799fe878a02b26fa13ce50b341095
