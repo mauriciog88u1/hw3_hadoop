@@ -9,20 +9,21 @@ public class q3Reducer extends Reducer<Text, Text, Text, Text> {
 
     @Override
     protected void reduce(Text key, Iterable<Text> values, Context context) throws IOException, InterruptedException {
-        String maxSong = "";
+        String songName = "";
         double maxHotttnesss = 0.0;
         for (Text value : values) {
             String[] data = value.toString().split("\\|");
-            String song = data[0];
-            String hotttnesssStr = data[1];
-            if (!"nan".equals(hotttnesssStr)) {
-                double hotttnesss = Double.parseDouble(hotttnesssStr);
+            if (data[0].equals("A")) {
+                double hotttnesss = Double.parseDouble(data[1]);
                 if (hotttnesss > maxHotttnesss) {
                     maxHotttnesss = hotttnesss;
-                    maxSong = song;
                 }
+            } else if (data[0].equals("M")) {
+                songName = data[1];
             }
         }
-        context.write(key, new Text(maxSong + "|" + maxHotttnesss));
+        if (!songName.isEmpty()) {
+            context.write(new Text(songName), new Text(String.valueOf(maxHotttnesss)));
+        }
     }
 }

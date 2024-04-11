@@ -44,14 +44,16 @@ public class Driver {
                 MultipleInputs.addInputPath(job, new Path(METADATA_INPUT_PATH), TextInputFormat.class, q2Mapper.class);
                 MultipleInputs.addInputPath(job, new Path(ANALYSIS_INPUT_PATH), TextInputFormat.class, q2Mapper.class);
                 break;
-                case 3:
-                    System.out.println("Question 3 Q3. What is the song with the highest hotttnesss (popularity) score?");
+            case 3:
+                System.out.println("Question 3 Q3. What is the song with the highest hotttnesss (popularity) score?");
                 job.setMapperClass(q3Mapper.class);
                 job.setReducerClass(q3Reducer.class);
                 job.setOutputKeyClass(Text.class);
                 job.setOutputValueClass(Text.class);
-                FileInputFormat.addInputPath(job, new Path(ANALYSIS_INPUT_PATH));
+                MultipleInputs.addInputPath(job, new Path(ANALYSIS_INPUT_PATH), TextInputFormat.class, q3Mapper.class);
+                MultipleInputs.addInputPath(job, new Path(METADATA_INPUT_PATH), TextInputFormat.class, q3Mapper.class);
                 break;
+
 
             default:
                 throw new IllegalStateException("Unexpected value: " + questionNumber);
