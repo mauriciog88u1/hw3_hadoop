@@ -1,31 +1,40 @@
 package csx55.hw3;
 
-import csx55.hw3.utils.Analysis;
 import org.apache.hadoop.io.LongWritable;
 import org.apache.hadoop.io.Text;
 import org.apache.hadoop.mapreduce.Mapper;
 
 import java.io.IOException;
 
-import static csx55.hw3.utils.metadata.ARTIST_NAME_INDEX;
-import static csx55.hw3.utils.metadata.SONG_ID_INDEX;
-
 public class q2Mapper extends Mapper<LongWritable, Text, Text, Text> {
+
+    private static final int SONG_ID_INDEX_METADATA = 7;  // Based on metadata structure
+    private static final int ARTIST_NAME_INDEX = 6;       // Based on metadata structure
+    private static final int SONG_ID_INDEX_ANALYSIS = 0;  // Based on analysis structure
+    private static final int LOUDNESS_INDEX = 9;          // Based on analysis structure
 
     @Override
     protected void map(LongWritable key, Text value, Context context) throws IOException, InterruptedException {
         String line = value.toString();
-        String[] parts = line.split("\\|"); // Assuming fields are separated by '|'
+        String[] parts = line.split("\\|");
 
-        // Check if the line is from analysis.txt or metadata.txt based on number of fields or content structure
-        if (parts.length > Analysis.LOUDNESS_INDEX) { // Check if it's analysis data
-            String songId = parts[Analysis.SONG_ID_INDEX_ANALYSIS];
-            String loudness = parts[Analysis.LOUDNESS_INDEX];
+        if (parts.length > LOUDNESS_INDEX && isNumeric(parts[LOUDNESS_INDEX])) {
+            String songId = parts[SONG_ID_INDEX_ANALYSIS];
+            String loudness = parts[LOUDNESS_INDEX];
             context.write(new Text(songId), new Text("Loudness:" + loudness));
-        } else if (parts.length > ARTIST_NAME_INDEX) { // Check if it's metadata
-            String songId = parts[SONG_ID_INDEX];
+        } else if (parts.length > ARTIST_NAME_INDEX) {
+            String songId = parts[SONG_ID_INDEX_METADATA];
             String artistName = parts[ARTIST_NAME_INDEX];
             context.write(new Text(songId), new Text("Artist:" + artistName));
+        }
+    }
+
+    private boolean isNumeric(String str) {
+        try {
+            Double.parseDouble(str);
+            return true;
+        } catch (NumberFormatException e) {
+            return false;
         }
     }
 }
