@@ -12,7 +12,7 @@ public class q1Reducer extends Reducer {
     private int maxCountQ1 = 0;
 
 
-   public void reduce(Text key, Iterable<IntWritable> values, Context context) throws IOException, InterruptedException {
+    public void reduce(Text key, Iterable<IntWritable> values, Context context) throws IOException, InterruptedException {
         int sum = 0;
         for (IntWritable val : values) {
             try {
@@ -23,7 +23,7 @@ public class q1Reducer extends Reducer {
 
             if (sum > maxCountQ1) {
                 maxCountQ1 = sum;
-                maxArtistQ1.set("Artist: " + key.toString() + " Count: " );
+                maxArtistQ1.set("Artist: " + key.toString() + " Count: " + sum);
             }
         }
     }
