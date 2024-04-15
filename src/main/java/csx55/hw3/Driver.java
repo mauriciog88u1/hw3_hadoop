@@ -69,6 +69,17 @@ public class Driver {
 
                 FileOutputFormat.setOutputPath(job, new Path(args[1]));
                 break;
+            case 5:
+                System.out.println("Q5. What is the longest song(s)? The shortest song(s)? The song(s) of median length?");
+                job.setOutputKeyClass(Text.class);
+                job.setOutputValueClass(Text.class);
+
+                MultipleInputs.addInputPath(job, new Path(ANALYSIS_INPUT_PATH), TextInputFormat.class,q5AnalysisMapper.class);
+                MultipleInputs.addInputPath(job, new Path(METADATA_INPUT_PATH), TextInputFormat.class,q5MetaMapper.class);
+
+                job.setReducerClass(q5Reducer.class);
+                break;
+
 
             default:
                 throw new IllegalStateException("Unexpected value: " + questionNumber);
