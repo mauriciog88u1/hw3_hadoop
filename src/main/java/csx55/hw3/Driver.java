@@ -2,6 +2,7 @@ package csx55.hw3;
 
 import org.apache.hadoop.conf.Configuration;
 import org.apache.hadoop.fs.Path;
+import org.apache.hadoop.io.DoubleWritable;
 import org.apache.hadoop.io.IntWritable;
 import org.apache.hadoop.io.Text;
 import org.apache.hadoop.mapreduce.Job;
@@ -44,13 +45,17 @@ public class Driver {
                 MultipleInputs.addInputPath(job, new Path(METADATA_INPUT_PATH), TextInputFormat.class, q2Mapper.class);
                 MultipleInputs.addInputPath(job, new Path(ANALYSIS_INPUT_PATH), TextInputFormat.class, q2Mapper.class);
                 break;
-                case 3:
-                    System.out.println("Question 3 Q3. What is the song with the highest hotttnesss (popularity) score?");
-                job.setMapperClass(q3Mapper.class);
-                job.setReducerClass(q3Reducer.class);
+            case 3:
+                System.out.println("Question 3: What is the song with the highest hotttnesss (popularity) score?");
                 job.setOutputKeyClass(Text.class);
-                job.setOutputValueClass(Text.class);
-                FileInputFormat.addInputPath(job, new Path(ANALYSIS_INPUT_PATH));
+                job.setOutputValueClass(Text.class);  // Update this to DoubleWritable
+            
+                MultipleInputs.addInputPath(job, new Path(ANALYSIS_INPUT_PATH), TextInputFormat.class, q3AnalysisMapper.class);
+                MultipleInputs.addInputPath(job, new Path(METADATA_INPUT_PATH), TextInputFormat.class, q3MetaMapper.class);
+            
+                job.setReducerClass(q3Reducer.class);
+            
+                FileOutputFormat.setOutputPath(job, new Path(args[1]));
                 break;
 
             default:

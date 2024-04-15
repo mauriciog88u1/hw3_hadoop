@@ -48,10 +48,7 @@ public class q2Reducer extends Reducer<Text, Text, Text, Text> {
             }
         }
 
-        // Ensure the loudness is negative
-        if (maxAverageLoudness > 0) {
-            maxAverageLoudness *= -1;
-        }
+
 
         if (!loudestArtist.isEmpty()) {
             context.write(new Text(loudestArtist), new Text("Average Loudness: " + maxAverageLoudness));
