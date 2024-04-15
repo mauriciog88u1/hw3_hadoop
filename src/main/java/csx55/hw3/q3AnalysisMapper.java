@@ -17,7 +17,7 @@ public class q3AnalysisMapper extends Mapper<LongWritable, Text, Text, Text> {
 
         if (parts.length > HOTNESS_INDEX && isNumeric(parts[HOTNESS_INDEX])) {
             String songId = parts[SONG_ID_INDEX_ANALYSIS].trim();
-            String hotness = parts[HOTNESS_INDEX].trim().equalsIgnoreCase("nan") ? "0" : parts[HOTNESS_INDEX].trim();
+            String hotness = parts[HOTNESS_INDEX].trim().equalsIgnoreCase("nan") ? "0.0" : parts[HOTNESS_INDEX].trim();
             context.write(new Text(songId), new Text("hotness:" + hotness));
         }
     }
