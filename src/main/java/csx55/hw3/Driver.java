@@ -68,6 +68,7 @@ public class Driver {
                 job.setReducerClass(q4Reducer.class);
 
                 FileOutputFormat.setOutputPath(job, new Path(args[1]));
+                break;
 
             default:
                 throw new IllegalStateException("Unexpected value: " + questionNumber);
