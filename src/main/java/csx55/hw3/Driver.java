@@ -57,6 +57,18 @@ public class Driver {
             
                 FileOutputFormat.setOutputPath(job, new Path(args[1]));
                 break;
+            case 4:
+                System.out.println("Question 4:Which artist has the highest total time spent fading in their songs?");
+                job.setOutputKeyClass(Text.class);
+                job.setOutputValueClass(Text.class);
+
+                MultipleInputs.addInputPath(job, new Path(ANALYSIS_INPUT_PATH), TextInputFormat.class, q4AnalysisMapper.class);
+                MultipleInputs.addInputPath(job, new Path(METADATA_INPUT_PATH), TextInputFormat.class, q4MetaMapper.class);
+
+                job.setReducerClass(q4Reducer.class);
+
+                FileOutputFormat.setOutputPath(job, new Path(args[1]));
+                break;
 
             default:
                 throw new IllegalStateException("Unexpected value: " + questionNumber);
