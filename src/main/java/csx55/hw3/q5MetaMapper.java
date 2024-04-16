@@ -13,6 +13,7 @@ public class q5MetaMapper extends Mapper<Object, Text, Text, Text> {
 
         try {
             if (parts.length > TITLE_INDEX) {
+                
                 String songId = parts[SONG_ID_INDEX];
                 String artistName = parts[TITLE_INDEX];
                 context.write(new Text(songId), new Text("title:" + artistName));

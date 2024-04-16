@@ -78,7 +78,21 @@ public class Driver {
                 MultipleInputs.addInputPath(job, new Path(METADATA_INPUT_PATH), TextInputFormat.class,q5MetaMapper.class);
 
                 job.setReducerClass(q5Reducer.class);
+                FileOutputFormat.setOutputPath(job, new Path(args[1]));
+
                 break;
+            case 6:
+                System.out.println("What are the 10 most energetic and danceable songs? List them in descending order");
+                job.setOutputKeyClass(Text.class);
+                job.setOutputKeyClass(Text.class);
+
+                MultipleInputs.addInputPath(job, new Path(ANALYSIS_INPUT_PATH), TextInputFormat.class, q6AnalysisMapper.class);
+                MultipleInputs.addInputPath(job, new Path(METADATA_INPUT_PATH), TextInputFormat.class, q5MetaMapper.class);
+                job.setReducerClass(q6Reducer.class);
+
+
+                break;
+            
 
 
             default:
