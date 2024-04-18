@@ -92,9 +92,32 @@ public class Driver {
 
 
                 break;
-            
+            case 7:
+            System.out.println("Create segment data for the average song. Include start time, pitch, timbre, max loudness, max loudness time, and start loudness");
+            job.setOutputKeyClass(Text.class);
+            job.setOutputValueClass(Text.class);
 
+            MultipleInputs.addInputPath(job, new Path(ANALYSIS_INPUT_PATH), TextInputFormat.class, q7AnalysisMapper.class);
+            MultipleInputs.addInputPath(job, new Path(METADATA_INPUT_PATH), TextInputFormat.class, q5MetaMapper.class);
+            job.setReducerClass(q7Reducer.class);
+            break;
+            case 8:
+                System.out.println("Q8. Which artist is the most generic? Which artist is the most unique?");
+                break;
+            case 9:
+            // String promprString = "
+            //     Imagine a song with a higher hotnesss score than the song in your answer to Q3. List this
+            //     songs tempo, time signature, danceability, duration, mode, energy, key, loudness, when it
+            //     stops fading in, when it starts fading out, and which terms describe the artist who made it.
+            //     Give both the song and the artist who made it unique names.
+            //         ";
+                // System.out.println(promprString);
+                break;
+            case 10:
+                System.out.println("Q10. Create your own question. my question is to find the song that could be played at the retro tiktok rizz party");
+                break;
 
+        
             default:
                 throw new IllegalStateException("Unexpected value: " + questionNumber);
         }
