@@ -103,6 +103,19 @@ public class Driver {
             break;
             case 8:
                 System.out.println("Q8. Which artist is the most generic? Which artist is the most unique?");
+                // I define generic as a artist who has most songs in dataset and who has mosrt artist terms so a comb
+                // of both
+                job.setOutputKeyClass(Text.class);
+                job.setOutputValueClass(IntWritable.class);
+                FileInputFormat.addInputPath(job, new Path(METADATA_INPUT_PATH));
+                job.setMapperClass(q8Mapper.class);
+                job.setReducerClass(q8Reducer.class);
+                job.setMapOutputKeyClass(Text.class);
+                job.setMapOutputValueClass(IntWritable.class);
+                
+
+
+
                 break;
             case 9:
             // String promprString = "
@@ -111,7 +124,8 @@ public class Driver {
             //     stops fading in, when it starts fading out, and which terms describe the artist who made it.
             //     Give both the song and the artist who made it unique names.
             //         ";
-                // System.out.println(promprString);
+
+
                 break;
             case 10:
                 System.out.println("Q10. Create your own question. my question is to find the song that could be played at the retro tiktok rizz party");
