@@ -112,20 +112,17 @@ public class Driver {
                 job.setReducerClass(q8Reducer.class);
                 job.setMapOutputKeyClass(Text.class);
                 job.setMapOutputValueClass(IntWritable.class);
-                
-
-
-
-                break;
             case 9:
-            // String promprString = "
-            //     Imagine a song with a higher hotnesss score than the song in your answer to Q3. List this
-            //     songs tempo, time signature, danceability, duration, mode, energy, key, loudness, when it
-            //     stops fading in, when it starts fading out, and which terms describe the artist who made it.
-            //     Give both the song and the artist who made it unique names.
-            //         ";
+            job.setOutputKeyClass(Text.class);
+            job.setOutputValueClass(Text.class);
+            FileInputFormat.addInputPath(job, new Path(ANALYSIS_INPUT_PATH));
+            job.setMapperClass(q9MapperAnalysisMapper.class);
+            job.setReducerClass(q9Reducer.class);
+            job.setMapOutputKeyClass(Text.class);
+            job.setMapOutputValueClass(Text.class);
 
-
+            System.out.println("SEE q9 written answer md file for answer to question 9");
+            
                 break;
             case 10:
                 System.out.println("Q10. Create your own question. my question is to find the song that could be played at the retro tiktok rizz party");
