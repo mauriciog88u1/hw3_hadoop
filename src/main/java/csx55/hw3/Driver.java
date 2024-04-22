@@ -1,5 +1,7 @@
 package csx55.hw3;
 
+import java.io.File;
+
 import org.apache.hadoop.conf.Configuration;
 import org.apache.hadoop.fs.Path;
 import org.apache.hadoop.io.DoubleWritable;
@@ -9,6 +11,10 @@ import org.apache.hadoop.mapreduce.Job;
 import org.apache.hadoop.mapreduce.lib.input.FileInputFormat;
 import org.apache.hadoop.mapreduce.lib.input.TextInputFormat;
 import org.apache.hadoop.mapreduce.lib.output.FileOutputFormat;
+import org.apache.hadoop.mapreduce.lib.output.TextOutputFormat;
+
+import csx55.hw3.utils.Analysis;
+
 import org.apache.hadoop.mapreduce.lib.input.MultipleInputs;
 
 public class Driver {
@@ -96,9 +102,8 @@ public class Driver {
             System.out.println("Create segment data for the average song. Include start time, pitch, timbre, max loudness, max loudness time, and start loudness");
             job.setOutputKeyClass(Text.class);
             job.setOutputValueClass(Text.class);
-
-            MultipleInputs.addInputPath(job, new Path(ANALYSIS_INPUT_PATH), TextInputFormat.class, q7AnalysisMapper.class);
-            MultipleInputs.addInputPath(job, new Path(METADATA_INPUT_PATH), TextInputFormat.class, q5MetaMapper.class);
+            FileInputFormat.addInputPath(job, new Path(ANALYSIS_INPUT_PATH));
+            job.setMapperClass(q7AnalysisMapper.class);
             job.setReducerClass(q7Reducer.class);
             break;
             case 8:
@@ -113,21 +118,35 @@ public class Driver {
                 job.setMapOutputKeyClass(Text.class);
                 job.setMapOutputValueClass(IntWritable.class);
             case 9:
-            job.setOutputKeyClass(Text.class);
-            job.setOutputValueClass(Text.class);
-            FileInputFormat.addInputPath(job, new Path(ANALYSIS_INPUT_PATH));
-            job.setMapperClass(q9MapperAnalysisMapper.class);
-            job.setReducerClass(q9Reducer.class);
-            job.setMapOutputKeyClass(Text.class);
-            job.setMapOutputValueClass(Text.class);
+                job.setOutputKeyClass(Text.class);
+                job.setOutputValueClass(Text.class);
+                FileInputFormat.addInputPath(job, new Path(ANALYSIS_INPUT_PATH));
+                job.setMapperClass(q9MapperAnalysisMapper.class);
+                job.setReducerClass(q9Reducer.class);
+                job.setMapOutputKeyClass(Text.class);
+                job.setMapOutputValueClass(Text.class);
 
-            System.out.println("SEE q9 written answer md file for answer to question 9");
+                System.out.println("SEE q9 written answer md file for answer to question 9");
             
                 break;
-            case 10:
-                System.out.println("Q10. Create your own question. my question is to find the song that could be played at the retro tiktok rizz party");
-                break;
+                case 10:
+                System.out.println("Q10. Create your own question. My question is to find the song that could be played at the retro TikTok rizz party");
+                String question10 = "How has the popularity of Spanish music (like Cumbia, Reggaeton, Latin, Musica, and Reggae) evolved across different regions and over time?";
+                System.out.println(question10);
+                
+                job.setOutputKeyClass(Text.class);
+                job.setOutputValueClass(IntWritable.class);
+                FileInputFormat.addInputPath(job, new Path(METADATA_INPUT_PATH));
+                job.setMapperClass(q10Mapper.class);
+                job.setReducerClass(q10Reducer.class);
+                job.setMapOutputKeyClass(Text.class);
+                job.setMapOutputValueClass(IntWritable.class);
+                job.setOutputFormatClass(TextOutputFormat.class);
+                job.getConfiguration().set("mapreduce.output.textoutputformat.separator", ",");
 
+                
+                break;
+            
         
             default:
                 throw new IllegalStateException("Unexpected value: " + questionNumber);

@@ -5,8 +5,6 @@ import org.apache.hadoop.io.Text;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.TreeMap;
-import java.util.Comparator;
 
 public class q6Reducer extends Reducer<Text, Text, Text, Text> {
     private Map<String, String> titleMap = new HashMap<>();
@@ -36,11 +34,8 @@ public class q6Reducer extends Reducer<Text, Text, Text, Text> {
 
     @Override
     protected void cleanup(Context context) throws IOException, InterruptedException {
-        TreeMap<String, Double> sortedMap = new TreeMap<>(Comparator.comparingDouble(attributesMap::get).reversed());
-        sortedMap.putAll(attributesMap);
-
         int count = 0;
-        for (Map.Entry<String, Double> entry : sortedMap.entrySet()) {
+        for (Map.Entry<String, Double> entry : attributesMap.entrySet()) {
             if (count++ < 10) {
                 String songID = entry.getKey();
                 String songTitle = titleMap.get(songID);
